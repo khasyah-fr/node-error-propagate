@@ -26,3 +26,34 @@ function callbackFunction() {
         }
     })
 }
+
+callbackFunction()
+
+// 3. .then and .catch for Promises
+function promiseFunction() {
+    return new Promise((resolve, reject) => {
+        // Simulate an async error
+        const isError = true
+        if (isError) {
+            reject(new Error("Promise rejected"))
+        } else {
+            resolve("Promise resolved")
+        }
+    })
+}
+
+promiseFunction()
+.then(result => console.log(result))
+.catch(error => console.error("Caught promise error with .catch: ", error.message))
+
+// 4. Try-catch for async/await code
+async function asyncFunction() {
+    try {
+        const result = await promiseFunction()
+        console.log(result)
+    } catch (error) {
+        console.error("Caught async/await error with try-catch: ", error.message)
+    }
+}
+
+asyncFunction()
