@@ -57,3 +57,24 @@ async function asyncFunction() {
 }
 
 asyncFunction()
+
+// 5. Error listener for event emitters
+const emitter = new EventEmitter()
+
+emitter.on('error', (err) => {
+    console.error("Caught event emitter error: ", err.message)
+})
+
+// Emit an error
+emitter.emit('error', new Error("Something bad happened in EventEmitter"))
+
+// 6. Unhandled Promis rejection
+function unhandledPromise() {
+    return Promise.reject(new Error('Unhandled promise rejection'))
+}
+
+unhandledPromise()
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at: ', promise, ' reason: ', reason.message)
+})
