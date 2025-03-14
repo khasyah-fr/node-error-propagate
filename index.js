@@ -68,7 +68,7 @@ emitter.on('error', (err) => {
 // Emit an error
 emitter.emit('error', new Error("Something bad happened in EventEmitter"))
 
-// 6. Unhandled Promis rejection
+// 6. Unhandled Promise rejection
 function unhandledPromise() {
     return Promise.reject(new Error('Unhandled promise rejection'))
 }
@@ -78,3 +78,28 @@ unhandledPromise()
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection at: ', promise, ' reason: ', reason.message)
 })
+
+// 7. Error listener for streams
+const readableStream = fs.createReadStream('non_existent_file.txt')
+
+readableStream.on('error', (error) => {
+    console.error("Stream error caught: ", error.message)
+})
+
+// 8. Custom error propagation
+class CustomError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = 'CustomError'
+    }
+}
+
+function customErrorFunction() {
+    throw new CustomError('This is a custom error')
+}
+
+try {
+    customErrorFunction()
+} catch (error) {
+    console.error("Caught custom error: ", error.name, error.message)
+}
