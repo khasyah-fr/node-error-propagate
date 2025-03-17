@@ -103,3 +103,27 @@ try {
 } catch (error) {
     console.error("Caught custom error: ", error.name, error.message)
 }
+
+// 9. Mixed error handling for synchronous and asynchronous
+function mixedFunction() {
+    try {
+        // Sync error
+        JSON.parse("{ malformed json }")
+
+        // Async error
+        promiseFunction().catch(err => {
+            console.error("Caught async error inside try-catch: ", err.message)
+        })
+    } catch (error) {
+        console.error("Caught mixed function error: ", error.message)
+    }
+}
+
+mixedFunction()
+
+// 10. Global error handling
+process.on('uncaughtException', (error) => {
+    console.error('Uncaught exception: ', error.message)
+})
+
+throw new Error("This is an uncaught exception")
